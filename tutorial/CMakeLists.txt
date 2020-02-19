@@ -51,7 +51,7 @@ add_tutorial(lesson_12_using_the_gpu.cpp WITH_IMAGE_IO)
 add_tutorial(lesson_13_tuples.cpp)
 add_tutorial(lesson_14_types.cpp)
 
-option(BUILD_AOT_TUTORIAL "Build the ahead-of-time compilation tutorial" OFF)
+option(BUILD_AOT_TUTORIAL "Build the ahead-of-time compilation tutorial" ON)
 if (BUILD_AOT_TUTORIAL)
     # Tutorial 10 requires that we build generation code, then run it,
     # so we can build the final executable.
@@ -71,6 +71,10 @@ if (BUILD_AOT_TUTORIAL)
     # the generator (lesson_10_aot_compilation_generate)
     add_executable(lesson_10_aot_compilation_run lesson_10_aot_compilation_run.cpp)
     add_dependencies(lesson_10_aot_compilation_run exec_lesson_10_aot_compilation_generate)
-    target_link_libraries(lesson_10_aot_compilation_run PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${FILTER_LIB}")
+    target_link_libraries(lesson_10_aot_compilation_run PRIVATE
+                          "${CMAKE_CURRENT_BINARY_DIR}/${FILTER_LIB}"
+                          Halide::Runtime # TODO: including this here makes too much available. The generated headers should be self-contained.
+                          ${CMAKE_DL_LIBS}
+                          Threads::Threads)
     target_include_directories(lesson_10_aot_compilation_run PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 endif ()
