@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
 # Find Halide
-find_package(Halide REQUIRED COMPONENTS JPEG PNG)
+find_package(Halide REQUIRED COMPONENTS PNG)
 
 # Define the wavelet app
 add_executable(wavelet wavelet.cpp)
