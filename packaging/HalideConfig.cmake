@@ -9,6 +9,9 @@ endif ()
 include("${CMAKE_CURRENT_LIST_DIR}/Halide-Targets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/HalideGeneratorHelpers.cmake")
 
+include(CMakeFindDependencyMacro)
+find_dependency(Threads)
+
 foreach (comp IN LISTS ${CMAKE_FIND_PACKAGE_NAME}_comps)
     if (NOT ${comp} IN_LIST known_components)
         set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
