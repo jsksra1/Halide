@@ -45,7 +45,7 @@ function(add_halide_library TARGET)
     endif ()
 
     if (NOT ARG_FUNCTION_NAME)
-        set(ARG_FUNCTION_NAME "${ARG_GENERATOR}")
+        set(ARG_FUNCTION_NAME "${TARGET}")
     endif ()
 
     if (NOT ARG_TARGETS)

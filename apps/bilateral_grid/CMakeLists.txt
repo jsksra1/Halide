@@ -12,7 +12,12 @@ set(CMAKE_CXX_EXTENSIONS NO)
 find_package(Halide REQUIRED)
 
 add_executable(bilateral_grid_process filter.cpp)
-target_link_libraries(bilateral_grid_process PRIVATE Halide::ImageIO Halide::Tools Halide::Runtime)
+target_link_libraries(bilateral_grid_process
+                      PRIVATE
+                      Halide::ImageIO # For halide_image_io.h
+                      Halide::Tools # For halide_benchmark.h
+                      Halide::Runtime # For HalideBuffer.h  -- TODO: This should probably be part of ::Tools
+                      )
 
 add_executable(bilateral_grid.generator bilateral_grid_generator.cpp)
 target_link_libraries(bilateral_grid.generator PRIVATE Halide::Generator Halide::Tools)
@@ -22,7 +27,6 @@ add_halide_library(bilateral_grid FROM bilateral_grid.generator
 
 add_halide_library(bilateral_grid_auto_schedule FROM bilateral_grid.generator
                    GENERATOR bilateral_grid
-                   FUNCTION_NAME bilateral_grid_auto_schedule
                    EXTRA_OUTPUTS stmt schedule
                    PARAMS auto_schedule=true
                    USE_RUNTIME bilateral_grid.runtime)
