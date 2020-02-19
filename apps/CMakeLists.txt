@@ -14,7 +14,7 @@ set_tests_properties(create_halide_distrib PROPERTIES FIXTURES_SETUP apps)
 function(add_app_test NAME)
     add_test(NAME ${NAME}
              COMMAND ${CMAKE_CTEST_COMMAND}
-             --build-and-test ${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}
+             --build-and-test ${CMAKE_CURRENT_SOURCE_DIR}/${NAME} ${CMAKE_CURRENT_BINARY_DIR}/${NAME}
              --build-generator ${CMAKE_GENERATOR}
              --build-options -DCMAKE_PREFIX_PATH=${HALIDE_DIR})
     set_tests_properties(${NAME} PROPERTIES FIXTURES_REQUIRED apps LABELS apps)
