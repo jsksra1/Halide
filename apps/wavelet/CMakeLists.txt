@@ -10,8 +10,8 @@
 # $ cmake --build . -j 4
 # $ ./bin/wavelet ../../images/gray.png .
 
-project(wavelet)
 cmake_minimum_required(VERSION 3.14)
+project(wavelet)
 
 enable_testing()
 
