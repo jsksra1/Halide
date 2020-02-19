@@ -22,8 +22,8 @@ endif ()
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # Require the given C++ standard
-# TODO: evaluate if we actually need to match LLVM on this.
-set(CMAKE_CXX_STANDARD 11)
+# TODO: evaluate if we actually need to match LLVM on this or if C++14 is universally safe.
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
