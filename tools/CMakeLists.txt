@@ -9,6 +9,23 @@ add_executable(binary2cpp binary2cpp.cpp)
 target_compile_options(binary2cpp PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/wd4996>)
 
 ##
+# Interface target for enabling PNG/JPEG support in Halide
+##
+
+add_library(Halide_ImageIO INTERFACE)
+add_library(Halide::ImageIO ALIAS Halide_ImageIO)
+set_target_properties(Halide_ImageIO PROPERTIES EXPORT_NAME ImageIO)
+
+foreach (LIB IN ITEMS PNG JPEG)
+    if (TARGET ${LIB}::${LIB})
+        target_link_libraries(Halide_ImageIO INTERFACE ${LIB}::${LIB})
+    else ()
+        message(STATUS "${LIB} not found; compiling with -DHALIDE_NO_${LIB}")
+        target_compile_definitions(Halide_ImageIO INTERFACE HALIDE_NO_${LIB})
+    endif ()
+endforeach ()
+
+##
 # Utility targets meant for users
 ##
 
