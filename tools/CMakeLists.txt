@@ -52,6 +52,5 @@ add_library(Halide_Tools INTERFACE)
 add_library(Halide::Tools ALIAS Halide_Tools)
 target_include_directories(Halide_Tools
                            INTERFACE
-                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_DATADIR}/tools>)
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 set_target_properties(Halide_Tools PROPERTIES EXPORT_NAME Tools)

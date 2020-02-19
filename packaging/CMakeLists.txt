@@ -13,7 +13,7 @@ set(HALIDE_INSTALL_CMAKEDIR
 # Main library exports
 ##
 
-install(TARGETS Halide
+install(TARGETS Halide Halide_Runtime
         EXPORT Halide_Targets
 
         RUNTIME
@@ -31,7 +31,11 @@ install(TARGETS Halide
 
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS Halide_Generator Halide_ImageIO Halide_RunGenMain Halide_Runtime Halide_Tools
+install(TARGETS Halide_Tools
+        EXPORT Halide_Targets
+        INCLUDES DESTINATION ${CMAKE_INSTALL_DATADIR}/tools)
+
+install(TARGETS Halide_Generator Halide_ImageIO Halide_RunGenMain
         EXPORT Halide_Targets)
 
 install(EXPORT Halide_Targets
