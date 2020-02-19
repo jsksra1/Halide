@@ -54,7 +54,7 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
         message(STATUS "Building tests disabled")
     endif ()
 
-    option(WITH_APPS "Build apps" OFF)
+    option(WITH_APPS "Build apps" ON)
     if (WITH_APPS)
         message(STATUS "Building apps enabled")
         add_subdirectory(apps)
