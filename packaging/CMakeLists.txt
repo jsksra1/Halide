@@ -1,4 +1,13 @@
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+##
+# Custom locations
+##
+
+set(HALIDE_INSTALL_CMAKEDIR
+    "${CMAKE_INSTALL_LIBDIR}/cmake/Halide"
+    CACHE STRING "Path to Halide cmake files")
 
 ##
 # Main library exports
@@ -26,7 +35,7 @@ install(TARGETS Halide_Generator Halide_ImageIO Halide_RunGenMain Halide_Runtime
         EXPORT Halide_Targets)
 
 install(EXPORT Halide_Targets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Halide
+        DESTINATION ${HALIDE_INSTALL_CMAKEDIR}
         NAMESPACE Halide::
         FILE Halide-Targets.cmake
         COMPONENT Halide_Development)
@@ -74,6 +83,20 @@ install(DIRECTORY ${Halide_SOURCE_DIR}/tutorial
         PATTERN "*.jpg"
         PATTERN "*.mp4"
         PATTERN "*.png")
+
+##
+# CMake scripts
+##
+
+write_basic_package_version_file(
+        HalideConfigVersion.cmake
+        COMPATIBILITY SameMajorVersion)
+
+install(FILES
+        HalideConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/HalideConfigVersion.cmake
+        ${Halide_SOURCE_DIR}/cmake/HalideGeneratorHelpers.cmake
+        DESTINATION ${HALIDE_INSTALL_CMAKEDIR})
 
 ##
 # Documentation
