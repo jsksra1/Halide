@@ -66,7 +66,7 @@ function(add_halide_library TARGET)
 
     if (NOT ARG_USE_RUNTIME)
         add_library("${TARGET}.runtime" STATIC IMPORTED)
-        target_link_libraries("${TARGET}.runtime" INTERFACE ${CMAKE_DL_LIBS})
+        target_link_libraries("${TARGET}.runtime" INTERFACE Threads::Threads ${CMAKE_DL_LIBS})
         add_custom_command(OUTPUT "${TARGET}.runtime${CMAKE_STATIC_LIBRARY_SUFFIX}"
                            COMMAND "${ARG_FROM}" -r "${TARGET}.runtime" -o . target=${TARGETS})
         add_custom_target("${TARGET}.runtime.update"
