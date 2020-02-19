@@ -23,6 +23,7 @@ target_compile_definitions(Halide_ImageIO
                            INTERFACE
                            $<$<NOT:$<TARGET_EXISTS:PNG::PNG>>:HALIDE_NO_PNG>
                            $<$<NOT:$<TARGET_EXISTS:JPEG::JPEG>>:HALIDE_NO_JPEG>)
+target_include_directories(Halide_ImageIO INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 ##
 # Utility targets meant for users

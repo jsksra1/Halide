@@ -31,11 +31,11 @@ install(TARGETS Halide Halide_Runtime
 
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS Halide_Tools
+install(TARGETS Halide_Tools Halide_ImageIO
         EXPORT Halide_Targets
         INCLUDES DESTINATION ${CMAKE_INSTALL_DATADIR}/tools)
 
-install(TARGETS Halide_Generator Halide_ImageIO Halide_RunGenMain
+install(TARGETS Halide_Generator Halide_RunGenMain
         EXPORT Halide_Targets)
 
 install(EXPORT Halide_Targets
