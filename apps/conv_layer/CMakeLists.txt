@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(camera_pipe)
+project(conv_layer)
 
 enable_testing()
 
@@ -11,18 +11,19 @@ set(CMAKE_CXX_EXTENSIONS NO)
 # Find Halide
 find_package(Halide REQUIRED)
 
-# Generator executable
+# Generator
 add_executable(conv_layer.generator conv_layer_generator.cpp)
 target_link_libraries(conv_layer.generator
                       PRIVATE
                       Halide::Generator)
 
-# Libraries
+# Filters
 add_halide_library(conv_layer FROM conv_layer.generator)
 add_halide_library(conv_layer_auto_schedule FROM conv_layer.generator
                    GENERATOR conv_layer
                    PARAMS auto_schedule=true)
 
+# Main executable
 add_executable(conv_layer_process process.cpp)
 target_link_libraries(conv_layer_process
                       PRIVATE
@@ -30,3 +31,6 @@ target_link_libraries(conv_layer_process
                       Halide::ImageIO
                       conv_layer
                       conv_layer_auto_schedule)
+
+# Test that the app actually works!
+add_test(NAME conv_layer_process COMMAND conv_layer_process)

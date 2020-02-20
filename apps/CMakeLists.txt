@@ -1,6 +1,8 @@
 ##
-# Test apps from the perspective of a consuming project. Each of these
+# Test apps from the perspective of a consuming project.
 ##
+
+# Set up a test fixture for installing the main project into a build directory
 
 set(HALIDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/_Halide_install")
 
@@ -27,6 +29,8 @@ add_test(NAME delete_halide_distrib
 
 set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
 
+# Actually add the apps
+
 #add_app_test(autoscheduler)  # TODO: reorganize into module
 add_app_test(bilateral_grid)
 add_app_test(blur)
@@ -34,7 +38,7 @@ add_app_test(blur)
 add_app_test(camera_pipe)
 add_app_test(conv_layer)
 #add_app_test(glsl)  # TODO: bugged on my computer; not built by Makefile
-#add_app_test(harris)
+add_app_test(harris)
 #add_app_test(iir_blur)
 #add_app_test(interpolate)
 #add_app_test(lens_blur)

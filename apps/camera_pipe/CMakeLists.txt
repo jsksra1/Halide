@@ -11,14 +11,14 @@ set(CMAKE_CXX_EXTENSIONS NO)
 # Find Halide
 find_package(Halide REQUIRED)
 
-# Generator executable
+# Generator
 add_executable(camera_pipe.generator camera_pipe_generator.cpp)
 target_link_libraries(camera_pipe.generator
                       PRIVATE
                       Halide::Generator
                       Halide::Tools)
 
-# Libraries
+# Filters
 add_halide_library(camera_pipe FROM camera_pipe.generator)
 add_halide_library(camera_pipe_auto_schedule FROM camera_pipe.generator
                    GENERATOR camera_pipe
@@ -32,3 +32,11 @@ target_link_libraries(camera_pipe_process
                       Halide::ImageIO
                       camera_pipe
                       camera_pipe_auto_schedule)
+
+# Test that the app actually works!
+set(IMAGE ${CMAKE_CURRENT_LIST_DIR}/../support/rgb.png)
+if (EXISTS ${IMAGE})
+    configure_file(${IMAGE} rgb.png COPYONLY)
+    add_test(NAME camera_pipe_process
+             COMMAND camera_pipe_process rgb.png 2 50 5 output.png)
+endif ()
