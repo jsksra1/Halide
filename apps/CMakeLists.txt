@@ -18,16 +18,16 @@ function(add_app_test NAME)
              COMMAND ${CMAKE_CTEST_COMMAND}
              --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}/${NAME}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}"
              --build-generator ${CMAKE_GENERATOR}
-             --build-options "-DCMAKE_PREFIX_PATH=${HALIDE_DIR}"
+             --build-options "-DCMAKE_PREFIX_PATH=${HALIDE_DIR}" "-DCMAKE_BUILD_TYPE=Release"
              --test-command ${CMAKE_CTEST_COMMAND})
     set_tests_properties(${NAME} PROPERTIES FIXTURES_REQUIRED apps LABELS apps)
 endfunction()
 
-# TODO: deprecated as of CMake 3.17. Replace "remove_directory" with "rm -rf" instead (which was introduced in 3.17).
+# TODO: "remove_directory" deprecated and replaced by "rm -rf" as of CMake 3.17.
 add_test(NAME delete_halide_distrib
          COMMAND ${CMAKE_COMMAND} -E remove_directory "${HALIDE_DIR}")
 
-set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
+#set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
 
 # Actually add the apps
 
@@ -42,7 +42,7 @@ add_app_test(harris)
 add_app_test(iir_blur)
 add_app_test(interpolate)
 add_app_test(lens_blur)
-#add_app_test(linear_algebra)
+add_app_test(linear_algebra)
 #add_app_test(linear_blur)
 #add_app_test(local_laplacian)
 #add_app_test(nl_means)
