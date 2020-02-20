@@ -43,6 +43,7 @@ add_app_test(conv_layer)
 add_app_test(cuda_mat_mul)
 #add_app_test(glsl)  # TODO: bugged on my computer; not built by Makefile
 add_app_test(harris)
+add_app_test(hist)
 add_app_test(iir_blur)
 add_app_test(interpolate)
 add_app_test(lens_blur)
