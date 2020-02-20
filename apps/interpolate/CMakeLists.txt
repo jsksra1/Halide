@@ -31,7 +31,7 @@ target_link_libraries(interpolate_filter
                       interpolate_auto_schedule)
 
 # Test that the app actually works!
-set(IMAGE ${CMAKE_CURRENT_LIST_DIR}/../support/rgba.png)
+set(IMAGE ${CMAKE_CURRENT_LIST_DIR}/../images/rgba.png)
 if (EXISTS ${IMAGE})
     configure_file(${IMAGE} rgba.png COPYONLY)
     add_test(NAME interpolate_filter

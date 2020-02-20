@@ -64,7 +64,7 @@ target_link_libraries(resize
                       ${FILTERS})
 
 # Test that the app actually works!
-set(IMAGE ${CMAKE_CURRENT_LIST_DIR}/../support/rgb.png)
+set(IMAGE ${CMAKE_CURRENT_LIST_DIR}/../images/rgb.png)
 if (EXISTS ${IMAGE})
     configure_file(${IMAGE} rgb.png COPYONLY)
 
