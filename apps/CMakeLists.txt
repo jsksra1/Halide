@@ -27,7 +27,7 @@ endfunction()
 add_test(NAME delete_halide_distrib
          COMMAND ${CMAKE_COMMAND} -E remove_directory "${HALIDE_DIR}")
 
-#set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
+set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
 
 # Actually add the apps
 
@@ -43,8 +43,8 @@ add_app_test(iir_blur)
 add_app_test(interpolate)
 add_app_test(lens_blur)
 #add_app_test(linear_algebra)  # TODO: halide blas has issues; see #4631
-#add_app_test(linear_blur)
-#add_app_test(local_laplacian)
+#add_app_test(linear_blur)  # TODO: uses stubs, for which we're dropping support
+add_app_test(local_laplacian)
 #add_app_test(nl_means)
 #add_app_test(resize)
 #add_app_test(stencil_chain)
