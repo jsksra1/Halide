@@ -23,11 +23,13 @@ function(add_app_test NAME)
     set_tests_properties(${NAME} PROPERTIES FIXTURES_REQUIRED apps LABELS apps)
 endfunction()
 
-# TODO: "remove_directory" deprecated and replaced by "rm -rf" as of CMake 3.17.
-add_test(NAME delete_halide_distrib
-         COMMAND ${CMAKE_COMMAND} -E remove_directory "${HALIDE_DIR}")
-
-#set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
+option(CLEANUP_AFTER_APPS "Delete the install directory after running apps build fixture (useful to disable for debugging)" ON)
+if (CLEANUP_AFTER_APPS)
+    # TODO: "remove_directory" deprecated and replaced by "rm -rf" as of CMake 3.17.
+    add_test(NAME delete_halide_distrib
+             COMMAND ${CMAKE_COMMAND} -E remove_directory "${HALIDE_DIR}")
+    set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
+endif ()
 
 # Actually add the apps
 
