@@ -140,10 +140,6 @@ endif ()
 llvm_map_components_to_libnames(LLVM_COMPONENTS ${LLVM_COMPONENTS})
 target_link_libraries(llvm INTERFACE ${LLVM_COMPONENTS})
 
-if (NOT LLVM_ENABLE_ASSERTIONS)
-    target_compile_definitions(llvm INTERFACE NDEBUG)
-endif ()
-
 option(HALIDE_ENABLE_RTTI "Enable RTTI" ${LLVM_ENABLE_RTTI})
 if (HALIDE_ENABLE_RTTI AND NOT LLVM_ENABLE_RTTI)
     message(FATAL_ERROR "Can't enable RTTI. LLVM was compiled without it")

@@ -454,7 +454,7 @@ target_compile_options(Halide
 # Define Halide_SHARED or Halide_STATIC depending on library type
 target_compile_definitions(Halide PRIVATE
                            "Halide_${HALIDE_LIBRARY_TYPE}"
-                           )
+                           COMPILING_HALIDE)
 
 # TODO: what do these do, and why are they necessary?
 target_compile_definitions(Halide PUBLIC
@@ -485,9 +485,4 @@ endif ()
 option(HALIDE_USE_CODEMODEL_LARGE "Use the Large LLVM codemodel" OFF)
 if (HALIDE_USE_CODEMODEL_LARGE)
     target_compile_definitions(Halide PRIVATE HALIDE_USE_CODEMODEL_LARGE)
-endif ()
-
-target_compile_definitions(Halide PRIVATE COMPILING_HALIDE)
-if (NOT LLVM_ENABLE_ASSERTIONS)
-    target_compile_definitions(Halide PRIVATE NDEBUG)
 endif ()
