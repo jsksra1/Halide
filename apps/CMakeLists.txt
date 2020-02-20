@@ -40,6 +40,7 @@ add_app_test(blur)
 #add_app_test(c_backend)  # TODO: implement support for the C backend.
 add_app_test(camera_pipe)
 add_app_test(conv_layer)
+add_app_test(cuda_mat_mul)
 #add_app_test(glsl)  # TODO: bugged on my computer; not built by Makefile
 add_app_test(harris)
 add_app_test(iir_blur)
