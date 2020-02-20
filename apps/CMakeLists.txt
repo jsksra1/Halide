@@ -29,7 +29,7 @@ set_tests_properties(delete_halide_distrib PROPERTIES FIXTURES_CLEANUP apps)
 
 #add_app_test(autoscheduler)
 add_app_test(bilateral_grid)
-#add_app_test(blur)
+add_app_test(blur)
 #add_app_test(c_backend)
 #add_app_test(camera_pipe)
 #add_app_test(conv_layer)
