@@ -1,3 +1,8 @@
+if (WIN32)
+    # Halide OpenGL is broken on Windows.
+    return()
+endif ()
+
 cmake_minimum_required(VERSION 3.14)
 project(glsl)
 
@@ -32,5 +37,6 @@ if (TARGET OpenGL::GL)
                           Halide::Runtime
                           halide_blur_glsl
                           halide_ycc_glsl)
-endif ()
 
+    add_test(NAME opengl_test COMMAND opengl_test)
+endif ()
