@@ -36,7 +36,7 @@ foreach (TARGET IN LISTS BENCHMARK_TARGETS)
                 set(TEST_NAME ${BLA_VENDOR}_${FUNC}_${SIZE})
                 add_test(NAME ${TEST_NAME}
                          COMMAND ${TARGET} ${FUNC} ${SIZE})
-                set_tests_properties("${TEST_NAME}" PROPERTIES LABELS "${BLA_VENDOR};${FUNC};${LEVEL};size_${SIZE}")
+                set_tests_properties("${TEST_NAME}" PROPERTIES LABELS "${BLA_VENDOR};${LEVEL}")
             endforeach ()
         endforeach ()
     endforeach ()

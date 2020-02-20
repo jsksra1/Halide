@@ -14,12 +14,12 @@ function(add_halide_blas_library)
     cmake_parse_arguments(args "" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     add_halide_library(${args_TARGET} FROM blas.generator
                        GENERATOR ${args_NAME}
-                       FEATURES no_asserts no_bounds_query
+                       FEATURES# no_asserts no_bounds_query
                        PARAMS ${args_GENERATOR_ARGS})
     target_link_libraries(halide_blas PUBLIC ${args_TARGET})
 endfunction()
 
-# And now all the instantiaons
+# And now all the instantiations
 add_halide_blas_library(
         TARGET halide_scopy_impl
         NAME saxpy

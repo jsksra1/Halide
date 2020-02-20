@@ -42,7 +42,7 @@ add_app_test(harris)
 add_app_test(iir_blur)
 add_app_test(interpolate)
 add_app_test(lens_blur)
-add_app_test(linear_algebra)
+#add_app_test(linear_algebra)  # TODO: halide blas has issues; see #4631
 #add_app_test(linear_blur)
 #add_app_test(local_laplacian)
 #add_app_test(nl_means)
