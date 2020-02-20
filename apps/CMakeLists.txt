@@ -46,7 +46,7 @@ add_app_test(lens_blur)
 #add_app_test(linear_blur)  # TODO: uses stubs, for which we're dropping support
 add_app_test(local_laplacian)
 add_app_test(max_filter)
-#add_app_test(nl_means)
+add_app_test(nl_means)
 #add_app_test(resize)
 #add_app_test(stencil_chain)
 #add_app_test(unsharp)
