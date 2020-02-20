@@ -59,7 +59,7 @@ target_compile_definitions(llvm_config INTERFACE "LLVM_VERSION=${LLVM_VERSION_MA
 ##
 
 # See the output of ``llvm-config --components`` for a list of possible components
-set(LLVM_COMPONENTS mcjit;bitwriter;linker; passes)
+set(LLVM_COMPONENTS mcjit;bitwriter;linker;passes)
 
 # TODO: For targets we can link against even fewer libraries by specifying only the components we REALLY need.
 # (e.g. x86asmprinter;x86codegen rather than x86)
@@ -137,8 +137,8 @@ if (LLVM_USE_SHARED_LLVM_LIBRARY)
     set(LLVM_USE_SHARED "USE_SHARED")
 endif ()
 
-llvm_map_components_to_libnames(LLVM_COMPONENTS ${LLVM_COMPONENTS})
-target_link_libraries(llvm INTERFACE ${LLVM_COMPONENTS})
+llvm_map_components_to_libnames(LLVM_LIBNAMES ${LLVM_COMPONENTS})
+target_link_libraries(llvm INTERFACE ${LLVM_LIBNAMES})
 
 option(HALIDE_ENABLE_RTTI "Enable RTTI" ${LLVM_ENABLE_RTTI})
 if (HALIDE_ENABLE_RTTI AND NOT LLVM_ENABLE_RTTI)
@@ -154,6 +154,15 @@ endif ()
 option(HALIDE_ENABLE_EXCEPTIONS "Enable exceptions" ${LLVM_ENABLE_EH})
 if (HALIDE_ENABLE_EXCEPTIONS)
     target_compile_definitions(llvm_config INTERFACE WITH_EXCEPTIONS)
+endif ()
+
+# TODO: determine whether this is still necessary
+if (NOT MSVC AND NOT LLVM_USE_SHARED_LLVM_LIBRARY)
+    execute_process(COMMAND llvm-config --system-libs ${LLVM_COMPONENTS} OUTPUT_VARIABLE EXTRA_LIBS)
+    string(STRIP EXTRA_LIBS "${EXTRA_LIBS}")   # strip whitespace from start & end
+    string(REPLACE "\n" "" EXTRA_LIBS "${EXTRA_LIBS}")
+    string(REPLACE " " ";" EXTRA_LIBS "${EXTRA_LIBS}")  # convert into a list
+    target_link_libraries(llvm INTERFACE ${EXTRA_LIBS})
 endif ()
 
 ##

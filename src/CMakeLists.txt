@@ -336,12 +336,6 @@ set(SOURCE_FILES
     )
 
 ##
-# Build and import the runtime.
-##
-
-add_subdirectory(runtime)
-
-##
 # Build the Halide mono-header.
 ##
 
@@ -372,18 +366,15 @@ endif ()
 add_library(Halide ${HALIDE_LIBRARY_TYPE} ${SOURCE_FILES} ${HEADER_FILES})
 add_library(Halide::Halide ALIAS Halide)
 
-target_link_libraries(Halide PRIVATE Halide_initmod LLVM::LLVM LLVM::Config)
-
-# TODO: determine whether this is still necessary
-if (NOT MSVC AND NOT LLVM_USE_SHARED_LLVM_LIBRARY)
-    execute_process(COMMAND llvm-config --system-libs ${LLVM_COMPONENTS} OUTPUT_VARIABLE EXTRA_LIBS)
-    string(STRIP EXTRA_LIBS "${EXTRA_LIBS}")   # strip whitespace from start & end
-    string(REPLACE "\n" "" EXTRA_LIBS "${EXTRA_LIBS}")
-    string(REPLACE " " ";" EXTRA_LIBS "${EXTRA_LIBS}")  # convert into a list
-    target_link_libraries(Halide PRIVATE ${EXTRA_LIBS})
-endif ()
+target_link_libraries(Halide PRIVATE LLVM::LLVM LLVM::Config)
 
 add_dependencies(Halide HalideIncludes)
+
+##
+# Build and import the runtime.
+##
+
+add_subdirectory(runtime)
 
 ##
 # Include paths for libHalide
