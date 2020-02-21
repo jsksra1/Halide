@@ -365,6 +365,7 @@ endif ()
 
 add_library(Halide ${HALIDE_LIBRARY_TYPE} ${SOURCE_FILES} ${HEADER_FILES})
 add_library(Halide::Halide ALIAS Halide)
+set_target_properties(Halide PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(Halide PRIVATE LLVM::LLVM LLVM::Config)
 

@@ -22,6 +22,29 @@ if ("${LLVM_PACKAGE_VERSION}" VERSION_GREATER 11.0)
 endif ()
 
 ##
+# Promote executable targets from LLVM
+##
+
+set_target_properties(llvm-as PROPERTIES IMPORTED_GLOBAL TRUE)
+set_target_properties(llvm-nm PROPERTIES IMPORTED_GLOBAL TRUE)
+set_target_properties(llvm-config PROPERTIES IMPORTED_GLOBAL TRUE)
+
+##
+# Create target for holding LLVM properties
+##
+
+add_library(llvm_config INTERFACE IMPORTED)
+set_target_properties(llvm_config PROPERTIES IMPORTED_GLOBAL TRUE)
+add_library(LLVM::Config ALIAS llvm_config)
+
+target_compile_definitions(llvm_config INTERFACE "LLVM_VERSION=${LLVM_VERSION_MAJOR}${LLVM_VERSION_MINOR}")
+
+option(HALIDE_ENABLE_EXCEPTIONS "Enable exceptions" ${LLVM_ENABLE_EH})
+if (HALIDE_ENABLE_EXCEPTIONS)
+    target_compile_definitions(llvm_config INTERFACE WITH_EXCEPTIONS)
+endif ()
+
+##
 # Detect supported llvm targets
 ##
 
@@ -47,18 +70,17 @@ check_llvm_target(AMDGPU WITH_AMDGPU)  # AMDGPU target is WIP
 # Create interface libraries for LLVM
 ##
 
-add_library(llvm INTERFACE)
+add_library(llvm INTERFACE IMPORTED)
+set_target_properties(llvm PROPERTIES IMPORTED_GLOBAL TRUE)
+add_library(LLVM::LLVM ALIAS llvm)
+
 target_include_directories(llvm INTERFACE ${LLVM_INCLUDE_DIRS})
 target_compile_definitions(llvm INTERFACE ${LLVM_DEFINITIONS})
-
-add_library(llvm_config INTERFACE)
-target_compile_definitions(llvm_config INTERFACE "LLVM_VERSION=${LLVM_VERSION_MAJOR}${LLVM_VERSION_MINOR}")
 
 ##
 # Create options that are initialized based on LLVM's config
 ##
 
-# See the output of ``llvm-config --components`` for a list of possible components
 set(LLVM_COMPONENTS mcjit;bitwriter;linker;passes)
 
 # TODO: For targets we can link against even fewer libraries by specifying only the components we REALLY need.
@@ -135,6 +157,13 @@ endif ()
 # FIXME: migrate to proper cmake config magic.
 if (LLVM_USE_SHARED_LLVM_LIBRARY)
     set(LLVM_USE_SHARED "USE_SHARED")
+elseif (NOT MSVC)
+    # TODO: determine whether this is still necessary
+    execute_process(COMMAND llvm-config --system-libs ${LLVM_COMPONENTS} OUTPUT_VARIABLE EXTRA_LIBS)
+    string(STRIP EXTRA_LIBS "${EXTRA_LIBS}")   # strip whitespace from start & end
+    string(REPLACE "\n" "" EXTRA_LIBS "${EXTRA_LIBS}")
+    string(REPLACE " " ";" EXTRA_LIBS "${EXTRA_LIBS}")  # convert into a list
+    target_link_libraries(llvm INTERFACE ${EXTRA_LIBS})
 endif ()
 
 llvm_map_components_to_libnames(LLVM_LIBNAMES ${LLVM_COMPONENTS})
@@ -151,27 +180,3 @@ if (NOT LLVM_ENABLE_RTTI)
                            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-fno-rtti>)
 endif ()
 
-option(HALIDE_ENABLE_EXCEPTIONS "Enable exceptions" ${LLVM_ENABLE_EH})
-if (HALIDE_ENABLE_EXCEPTIONS)
-    target_compile_definitions(llvm_config INTERFACE WITH_EXCEPTIONS)
-endif ()
-
-# TODO: determine whether this is still necessary
-if (NOT MSVC AND NOT LLVM_USE_SHARED_LLVM_LIBRARY)
-    execute_process(COMMAND llvm-config --system-libs ${LLVM_COMPONENTS} OUTPUT_VARIABLE EXTRA_LIBS)
-    string(STRIP EXTRA_LIBS "${EXTRA_LIBS}")   # strip whitespace from start & end
-    string(REPLACE "\n" "" EXTRA_LIBS "${EXTRA_LIBS}")
-    string(REPLACE " " ";" EXTRA_LIBS "${EXTRA_LIBS}")  # convert into a list
-    target_link_libraries(llvm INTERFACE ${EXTRA_LIBS})
-endif ()
-
-##
-# Export aliases to global scope.
-##
-
-add_library(LLVM::LLVM ALIAS llvm)
-add_library(LLVM::Config ALIAS llvm_config)
-
-set_target_properties(llvm-as PROPERTIES IMPORTED_GLOBAL TRUE)
-set_target_properties(llvm-nm PROPERTIES IMPORTED_GLOBAL TRUE)
-set_target_properties(llvm-config PROPERTIES IMPORTED_GLOBAL TRUE)
