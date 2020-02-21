@@ -4,10 +4,10 @@
 
 if ("${HALIDE_REQUIRE_LLVM_VERSION}" STREQUAL "")
     # Find any version present.
-    find_package(LLVM REQUIRED CONFIG)
+    find_package(LLVM REQUIRED)
 else ()
     message(STATUS "Looking for LLVM version ${HALIDE_REQUIRE_LLVM_VERSION}")
-    find_package(LLVM "${HALIDE_REQUIRE_LLVM_VERSION}" REQUIRED CONFIG)
+    find_package(LLVM "${HALIDE_REQUIRE_LLVM_VERSION}" REQUIRED)
 endif ()
 
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
@@ -157,13 +157,6 @@ endif ()
 # FIXME: migrate to proper cmake config magic.
 if (LLVM_USE_SHARED_LLVM_LIBRARY)
     set(LLVM_USE_SHARED "USE_SHARED")
-elseif (NOT MSVC)
-    # TODO: determine whether this is still necessary
-    execute_process(COMMAND llvm-config --system-libs ${LLVM_COMPONENTS} OUTPUT_VARIABLE EXTRA_LIBS)
-    string(STRIP EXTRA_LIBS "${EXTRA_LIBS}")   # strip whitespace from start & end
-    string(REPLACE "\n" "" EXTRA_LIBS "${EXTRA_LIBS}")
-    string(REPLACE " " ";" EXTRA_LIBS "${EXTRA_LIBS}")  # convert into a list
-    target_link_libraries(llvm INTERFACE ${EXTRA_LIBS})
 endif ()
 
 llvm_map_components_to_libnames(LLVM_LIBNAMES ${LLVM_COMPONENTS})

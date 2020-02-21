@@ -336,6 +336,12 @@ set(SOURCE_FILES
     )
 
 ##
+# Build and import the runtime.
+##
+
+add_subdirectory(runtime)
+
+##
 # Build the Halide mono-header.
 ##
 
@@ -367,15 +373,9 @@ add_library(Halide ${HALIDE_LIBRARY_TYPE} ${SOURCE_FILES} ${HEADER_FILES})
 add_library(Halide::Halide ALIAS Halide)
 set_target_properties(Halide PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(Halide PRIVATE LLVM::LLVM LLVM::Config)
+target_link_libraries(Halide PRIVATE Halide_initmod LLVM::LLVM LLVM::Config)
 
 add_dependencies(Halide HalideIncludes)
-
-##
-# Build and import the runtime.
-##
-
-add_subdirectory(runtime)
 
 ##
 # Include paths for libHalide
