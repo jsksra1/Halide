@@ -13,7 +13,7 @@ set(HALIDE_INSTALL_CMAKEDIR
 # Main library exports
 ##
 
-install(TARGETS Halide Halide_Runtime
+install(TARGETS Halide Halide_Runtime Halide_initmod
         EXPORT Halide_Targets
 
         RUNTIME
