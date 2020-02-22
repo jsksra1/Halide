@@ -448,15 +448,9 @@ target_compile_options(Halide
 # Set up macro definitions for libHalide
 ##
 
-# Define Halide_SHARED or Halide_STATIC depending on library type
-target_compile_definitions(Halide PRIVATE
-                           "Halide_${HALIDE_LIBRARY_TYPE}"
-                           COMPILING_HALIDE)
-
 target_compile_definitions(Halide PRIVATE
                            $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
-                           $<$<CXX_COMPILER_ID:MSVC>:_SCL_SECURE_NO_WARNINGS>
-                           )
+                           $<$<CXX_COMPILER_ID:MSVC>:_SCL_SECURE_NO_WARNINGS>)
 
 option(TARGET_OPENCL "Include OpenCL-C target" ON)
 if (TARGET_OPENCL)
