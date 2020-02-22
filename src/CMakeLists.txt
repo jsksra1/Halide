@@ -453,8 +453,7 @@ target_compile_definitions(Halide PRIVATE
                            "Halide_${HALIDE_LIBRARY_TYPE}"
                            COMPILING_HALIDE)
 
-# TODO: what do these do, and why are they necessary?
-target_compile_definitions(Halide PUBLIC
+target_compile_definitions(Halide PRIVATE
                            $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
                            $<$<CXX_COMPILER_ID:MSVC>:_SCL_SECURE_NO_WARNINGS>
                            )
